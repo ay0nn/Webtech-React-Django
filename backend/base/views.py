@@ -27,4 +27,17 @@ def getRoutes(request):
 
 @api_view(['GET'])
 def getProducts(request):
-    return JsonResponse(products, safe=False)
+    return Response(products)
+
+
+
+@api_view(['GET'])
+def getProduct(request, pk):
+    print(f"Requested product ID: {pk}")
+    product = None
+    for i in products:
+        if i['_id'] == pk:
+            product = i
+            break
+    print(f"Found product: {product}")
+    return Response(product)
