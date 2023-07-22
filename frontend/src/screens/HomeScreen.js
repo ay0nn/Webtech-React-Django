@@ -20,7 +20,7 @@ function HomeScreen(){
 
     return(
         <div>
-            <h1>Latest Products</h1>
+            <h1>Latest Products....</h1>
             <Row>
                 {
                     products.map(product =>(

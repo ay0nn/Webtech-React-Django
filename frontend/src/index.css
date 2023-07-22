@@ -7,3 +7,12 @@ h3{
 .rating span{
   margin: 0.1rem;
 }
+
+img {
+  width: 300px; /* Set the width of the image */
+  height: 280px; /* Set the height of the image */
+}
+
+
+
+
