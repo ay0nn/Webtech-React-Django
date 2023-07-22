@@ -1,15 +1,37 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { Link , useParams} from 'react-router-dom' 
 import { Row, Col, Image, ListGroup, Button, Card } from 'react-bootstrap'
 import Rating from '../components/Rating'
 import products from "../products";
+import axios from "axios";
 
-function ProductScreen({  }) {
+function ProductScreen() {
+    const params = useParams();
+    const { id } = params;
+    const [product, setProduct] = useState(null);
+  
+    useEffect(() => {
+      async function fetchProduct() {
+        try {
+          const { data } = await axios.get(`/api/products/${id}/`);
+          setProduct(data);
+        } catch (error) {
+          console.error('Error fetching product:', error);
+          setProduct(null);
+        }
+      }
+  
+      fetchProduct();
+    }, [id]);
+  
+  
+    if (!product) {
+      return <div>Loading...</div>; // Display a loading message or spinner while waiting for data
+    }
  
-  const { id } = useParams();
-  const product = products.find((p) => String(p._id) === id);
+//   const { id } = useParams();
+//   const product = products.find((p) => String(p._id) === id);
 
-  if (!product) return null; // or fallback UI
 
   return (
     <div>
