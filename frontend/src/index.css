@@ -7,6 +7,18 @@ h3{
 .rating span{
   margin: 0.1rem;
 }
+h1{
+  font-size: 1.8rem;
+  padding:1rem 0;
+}
+
+h1{
+  font-size: 1.€rem;
+  padding:0.5rem 0;
+}
+h3{
+  padding: 1rem 0;
+}
 
 img {
   width: 300px; /* Set the width of the image */
