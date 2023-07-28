@@ -36,7 +36,7 @@ class UserSerializerWithToken(UserSerializer):
         token = RefreshToken().for_user(obj)
         return str(token)
         
-class ProdcutSerializer(serializers.ModelSerializer):
+class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = '__all__'
