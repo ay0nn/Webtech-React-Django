@@ -30,9 +30,19 @@ export default function CartScreens() {
     dispatch(removeFromCart(id))
   }
   //checkout handler
-  const checkoutHandler =()=>{
-    navigate('/login?redirect=shipping')
-  }
+  const checkoutHandler = () => {
+    // Check if the user is logged in by accessing the userInfo from localStorage
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  
+    if (userInfo && userInfo.token) {
+      // User is logged in, so navigate to the shipping page directly
+      navigate('/shipping');
+    } else {
+      // User is not logged in, so redirect to the login page with the redirect query parameter
+      navigate('/login?redirect=shipping');
+    }
+  };
+  
   
   
   return (

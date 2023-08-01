@@ -11,6 +11,7 @@ import {
   USER_DETAILS_REQUEST,
   USER_DETAILS_SUCCESS,
   USER_DETAILS_FAIL,
+  USER_DETAILS_RESET,
 
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_SUCCESS,
@@ -59,6 +60,7 @@ export const logout = () => async (dispatch) => {
 
     // Dispatch the USER_LOGOUT action to clear user info from state
     dispatch({ type: USER_LOGOUT });
+    dispatch({ type: USER_DETAILS_RESET });
 
     // Clear user info from local storage
     localStorage.removeItem('userInfo');
@@ -66,6 +68,7 @@ export const logout = () => async (dispatch) => {
     // Handle any errors that might occur during logout (optional)
   }
 };
+
 
 export const register = (name, email, password) => async (dispatch) => {
   try {
