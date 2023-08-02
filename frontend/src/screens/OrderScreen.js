@@ -10,26 +10,18 @@ const OrderScreen = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const orderDetails = useSelector((state) => state.orderDetails);
-  const [loadingOrder, setLoadingOrder] = useState(true);
   const { order, error, loading} = orderDetails;
-  order.itemsPrice = order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0);
-  
-  
-  
+  if (!loading && !error){
+    order.itemsPrice = order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0).toFixed(2);
+  }
 
   useEffect(() => {
-    setLoadingOrder(true);
-    dispatch(getOrderDetails(id)).then(() => setLoadingOrder(false));
-  }, [dispatch, id]);
+    if(!order || order._id !== Number(id)){
+      dispatch(getOrderDetails(id))
 
-  if (loadingOrder) {
-    return <Loader />;
-  }
+    }
+}, [order,dispatch, id]);
 
-  if (error || !order) {
-    return <Message variant="danger">Error fetching order details.</Message>;
-  }
- 
   
   return loading ? (
     <Loader/>
