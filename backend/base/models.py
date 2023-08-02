@@ -39,14 +39,16 @@ class Order(models.Model):
     taxPrice  = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
     shippingPrice  = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
     totalPrice = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, default=0)
-    isPaid      = models.BooleanField(default=False)
-    paidAt      = models.BooleanField(default=False,null=True,blank=True)
+    isPaid      = models.BooleanField(default=False) 
+    paidAt = models.DateTimeField(auto_now_add=False, null=True, blank=True)
+    isDelivered = models.BooleanField(default=False)
     deliveredAt=models.DateTimeField(auto_now_add=False, null=True,blank=True)
     createdAt=models.DateTimeField(auto_now_add=True)
     _id     = models.AutoField(primary_key=True,editable=False)
 
     def __str__(self) -> str:
-        return self.createdAt
+        # Convert the datetime object to a string representation
+        return f"Order ID: {self._id} - Created At: {self.createdAt.strftime('%Y-%m-%d %H:%M:%S')}"
 
 class OrderItem(models.Model):
     product    = models.ForeignKey(Product, on_delete=models.SET_NULL,null=True)
@@ -61,7 +63,6 @@ class OrderItem(models.Model):
         return self.name
 
 class ShippingAddress(models.Model):
-    product    = models.ForeignKey(Product, on_delete=models.CASCADE,null=True,blank=True)
     order       = models.OneToOneField(Order, on_delete=models.SET_NULL,null=True)
     address   = models.CharField(max_length=200, null=True, blank=True)
     city  = models.CharField(max_length=200, null=True, blank=True)

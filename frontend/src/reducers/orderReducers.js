@@ -45,18 +45,15 @@ import {
       case ORDER_DETAILS_REQUEST:
         return {
           ...state,
-          loading: true,
-          error: null,
+          loading: true
         };
       case ORDER_DETAILS_SUCCESS:
         return {
-          ...state,
           loading: false,
           order: action.payload,
         };
       case ORDER_DETAILS_FAIL:
         return {
-          ...state,
           loading: false,
           error: action.payload,
         };
