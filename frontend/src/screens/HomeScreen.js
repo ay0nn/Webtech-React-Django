@@ -28,9 +28,7 @@ function HomeScreen(){
 
     return (
         <div>
-          <h1>
-            Latest Products..
-          </h1>
+          
        <Form.Group controlId='search' className='search-container'>
   <i className='search-icon fas fa-search'></i>
   <Form.Control
@@ -40,7 +38,11 @@ function HomeScreen(){
     onChange={(e) => setSearchTerm(e.target.value)}
     className='search-input'
   />
+  
 </Form.Group>
+<h1>
+            Latest Products..
+          </h1>
 
           {
             loading ? <Loader/>
