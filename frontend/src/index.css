@@ -25,6 +25,39 @@ img {
   height: 280px; /* Set the height of the image */
 }
 
+/* styles.css */
+
+/* Style the search input container */
+.search-container {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+/* Style the search icon */
+.search-icon {
+  margin-right: 5px;
+}
+
+/* Style the search input field */
+.search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 5px;
+  font-size: 16px;
+}
+
+/* Remove default styles on focus */
+.search-input:focus {
+  outline: none;
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+
 
 
 
