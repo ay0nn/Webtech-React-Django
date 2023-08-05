@@ -21,7 +21,7 @@ function UserEditScreen() {
   const { error, loading, user } = userDetails;
 
   const userUpdate = useSelector((state) => state.userUpdate);
-  const { success: successUpdate } = userUpdate;
+  const { loading:loadingUpdate, error:errorUpdate,success: successUpdate } = userUpdate;
 
   useEffect(() => {
     if (successUpdate) {
@@ -50,6 +50,8 @@ function UserEditScreen() {
       <Link to='/admin/userlist'>Go Back</Link>
       <FormContainer>
         <h1>Edit User Info</h1>
+        {loadingUpdate && <Loader/>}
+        {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
         {loading ? (
           <Loader />
         ) : error ? (
