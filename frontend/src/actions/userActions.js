@@ -16,7 +16,6 @@ import {
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_SUCCESS,
   USER_UPDATE_PROFILE_FAIL,
-  USER_UPDATE_PROFILE_RESET,
 
 
   USER_LIST_REQUEST,
@@ -32,8 +31,11 @@ import {
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAIL,
 } from '../constants/userConstants';
+
 import axios from 'axios';
 import { ORDER_LIST_MY_RESET } from '../constants/orderConstants';
+import { PRODUCT_REVIEW_RESET } from '../constants/productConstants';
+import {CART_CLEAR_ITEMS } from '../constants/cartConstants'
 
 export const login = (email, password) => async (dispatch) => {
   try {
@@ -78,6 +80,8 @@ export const logout = () => async (dispatch) => {
     dispatch({ type: USER_DETAILS_RESET });
     dispatch({ type: ORDER_LIST_MY_RESET });
     dispatch({ type: USER_LIST_RESET });
+    dispatch({type: PRODUCT_REVIEW_RESET});
+    dispatch({type: CART_CLEAR_ITEMS });
 
     // Clear user info from local storage
     localStorage.removeItem('userInfo');

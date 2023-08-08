@@ -1,65 +1,62 @@
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { listProducts } from '../actions/productActions';
+import Product from '../components/Product';
+import '../Product.css'
 
-import{Row, Col, Form} from 'react-bootstrap'
-import Product from "../components/Product";
-import Loader from "../components/Loader";
-import Message from "../components/Message";
-import { useEffect, useState } from 'react';
-import axios from 'axios'
-import {useDispatch, useSelector} from 'react-redux'
+function HomeScreen() {
+  const dispatch = useDispatch();
+  const productList = useSelector((state) => state.productList);
+  const {  loading, products } = productList;
 
-import { listProducts } from '../actions/productActions'
+  const [page, setPage] = useState(1);
+  const [keyword, setKeyword] = useState('');
 
+  useEffect(() => {
+    dispatch(listProducts(keyword, page));
+  }, [dispatch, keyword, page]);
 
-function HomeScreen(){
+  const loadMore = () => {
+    setPage(page + 1);
+  };
 
-    const dispatch = useDispatch()
-    const productList = useSelector(state => state.productList)
-    const {error, loading, products} = productList
-    const [searchTerm, setSearchTerm] = useState('');
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setPage(1); // Reset page when performing a new search
+    dispatch(listProducts(keyword, 1));
+  };
 
-    useEffect(()=> {
-      dispatch(listProducts())
-    
-    }, []) 
-     // Filter the product list based on the search query
-  const filteredProducts = products.filter((product) =>
-  product.name.toLowerCase().includes(searchTerm.toLowerCase())
-);
+  return (
+    <div className="container">
+      <h1 className="main-heading">Latest Products</h1>
+      <form className="search-container" onSubmit={handleSearch}>
+        <input
+          type="text"
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+          placeholder="Search by title..."
+          className="search-input"
+        />
+        <button type="submit" className="search-button">
+          Search
+        </button>
+      </form>
+      <div className="product-list">
+        {products && products.length > 0 ? (
+          products.map((product) => (
+            <Product key={product._id} product={product} />
+          ))
+        ) : (
+          <p>No products available.</p>
+        )}
+      </div>
+      {products && products.length > 0 && !loading && (
+        <button onClick={loadMore} className="load-more-button">
+          Load More
+        </button>
+      )}
+    </div>
+  );
+}
 
-    return (
-        <div>
-          
-       <Form.Group controlId='search' className='search-container'>
-  <i className='search-icon fas fa-search'></i>
-  <Form.Control
-    type='text'
-    placeholder='Search Products...'
-    value={searchTerm}
-    onChange={(e) => setSearchTerm(e.target.value)}
-    className='search-input'
-  />
-  
-</Form.Group>
-<h1>
-            Latest Products..
-          </h1>
-
-          {
-            loading ? <Loader/>
-              : error ? <Message variant='danger'>{error}</Message>
-              :
-              
-              <Row>
-              {filteredProducts.map((product) => (
-                <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
-                  <Product product={product} />
-                </Col>
-              ))}
-            </Row>
-          }
-          
-        </div>
-      )
-    }
-    
-    export default HomeScreen
+export default HomeScreen;

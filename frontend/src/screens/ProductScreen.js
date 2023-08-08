@@ -30,35 +30,37 @@ function ProductScreen() {
 
         const productReview = useSelector(state => state.productReview);
         const { loading: loadingPR, error:errorPR, success: successPR } = productReview;
-
-
+        
       
         useEffect(() => {
-            if(successPR){
-                setRating(0)
-                setComment('')
-                dispatch({type: PRODUCT_REVIEW_RESET})
+            if (successPR) {
+                setRating(0);
+                setComment('');
+                dispatch({ type: PRODUCT_REVIEW_RESET });
+                
             }
-          dispatch(listProductDetails(id));
-        }, [id, dispatch, successPR]);
+
+            dispatch(listProductDetails(id));
+        }, [dispatch,id, successPR]);
+        
     
         const addToCartHandler =() => {
             navigate(`/cart/${id}?qty=${qty}`);
         }
 
         const submitHandler = (e) => {
-            e.preventDefault();
-            
+            e.preventDefault()
             dispatch(reviewProduct(id, {
                 rating,
-                comment,
-            }));
-        };
+                comment
+            }))
+        }
         
 
 
   return (
-    <div>
+    <div key={successPR}>
+
     <Link to='/' className='btn btn-primary my-3'>Go Back</Link>
     {
         loading?

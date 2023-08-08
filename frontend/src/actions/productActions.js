@@ -27,28 +27,30 @@ import {
 
 
 }from '../constants/productConstants'
+// actions/productActions.js
+export const listProducts = (keyword = '', page = 1) => async (dispatch) => {
+  try {
+    dispatch({ type: PRODUCT_LIST_REQUEST });
 
-export const listProducts = () => async (dispatch)=>{
-    try{
-        dispatch({type:PRODUCT_LIST_REQUEST})
-        const {data}=await axios.get('/api/products/')
+    const queryParams = keyword !== null && keyword !== 'null' ? `?keyword=${keyword}&page=${page}` : `?page=${page}`;
 
-        dispatch({
-            type: PRODUCT_LIST_SUCCESS,
-            payload: data
-        })
+    const { data } = await axios.get(`/api/products/${queryParams}`);
 
-    }catch(error){
-        dispatch({
-            type: PRODUCT_LIST_FAIL,
-            payload: error.response && error.response.data.detail
-                ? error.response.data.detail
-                : error.message,
-        })
+    dispatch({
+      type: PRODUCT_LIST_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: PRODUCT_LIST_FAIL,
+      payload: error.response && error.response.data.detail
+        ? error.response.data.detail
+        : error.message,
+    });
+  }
+};
 
-    }
 
-}
 
 export const listProductDetails = (id) => async (dispatch)=>{
     try{
@@ -159,6 +161,7 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
         type: PRODUCT_UPDATE_SUCCESS,
         payload: data,
       });
+   
       
       dispatch({type:PRODUCT_DELETE_SUCCESS,
          payload:data})
@@ -199,6 +202,8 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
         type: PRODUCT_REVIEW_SUCCESS,
         payload: data,
       });
+      dispatch({ type: PRODUCT_REVIEW_RESET });
+
     } catch (error) {
       dispatch({
         type: PRODUCT_REVIEW_FAIL,

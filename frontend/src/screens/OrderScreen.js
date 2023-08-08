@@ -49,7 +49,7 @@ const OrderScreen = () => {
       }
 
     }
-}, [order,dispatch, id, successPay, successD]);
+}, [order, dispatch, id, successPay, successD, navigate, userInfo]);
 
 const deliverHandler = () =>{
   dispatch(deliverOrder(order))

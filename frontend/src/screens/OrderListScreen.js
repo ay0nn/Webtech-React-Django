@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import {  Navigate, useLocation, useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import {  useNavigate } from 'react-router-dom';
 import { Table, Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import {listOrders} from '../actions/orderActions'
+import '../index'
 
 function OrderListScreen() {
     const navigate = useNavigate()
@@ -44,6 +45,7 @@ function OrderListScreen() {
                 <th>PAID</th>
 
                 <th>DELIVERED</th>
+                <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -70,9 +72,9 @@ function OrderListScreen() {
 
                    <td>
                     <LinkContainer to={`/orders/${order._id}`}>
-                        <Button variant='light' className='btn-sm'>
-                            Details
-                        </Button>
+                    <Button variant='light' className='btn-sm details-button'>
+            Details
+          </Button>
                     </LinkContainer>
                    
                     </td>

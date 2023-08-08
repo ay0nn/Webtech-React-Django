@@ -22,7 +22,7 @@ import {
     ORDER_LIST_REQUEST,
     ORDER_LIST_SUCCESS,
     ORDER_LIST_FAIL,
-    ORDER_LIST_RESET,
+  
 
     ORDER_DELIVER_REQUEST,
     ORDER_DELIVER_SUCCESS,
@@ -140,6 +140,7 @@ export const orderListReducer = (state = {orders:[]}, action) => {
         loading: false,
         error: action.payload,
       };
+    
    
     default:
       return state;

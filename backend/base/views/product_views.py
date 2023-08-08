@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from base.models import Product  # Fix: Correct import statement
 from base.serializers import ProductSerializer
 from rest_framework import status
@@ -13,10 +14,24 @@ from base.models import Review
 
 @api_view(['GET']) 
 def getProducts(request):
-    products = Product.objects.all()
+    query = request.query_params.get('keyword')
+    page = request.query_params.get('page')
+    
+    if query == None:
+        query = ''
+    products = Product.objects.filter(name__icontains=query)
+    
+    # Implement pagination (max 10 items per request)
+    paginator = Paginator(products, 10)
+    try:
+        products = paginator.page(page)
+    except PageNotAnInteger:
+        products = paginator.page(1)
+    except EmptyPage:
+        products = paginator.page(paginator.num_pages)
+    
     serializer = ProductSerializer(products, many=True) 
     return Response(serializer.data)
-
 
 
 @api_view(['GET'])
@@ -113,7 +128,6 @@ def createProductReview(request,pk):
         
         product.rating = total/len(reviews)
         product.save()
-        
         return Response('Review Added')
             
     
