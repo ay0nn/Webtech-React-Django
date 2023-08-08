@@ -7,24 +7,54 @@ import Message from '../components/Message'
 
 import { useDispatch, useSelector } from 'react-redux'
 
-import { listProductDetails } from '../actions/productActions'
-
+import { listProductDetails, reviewProduct } from '../actions/productActions'
+import { PRODUCT_REVIEW_RESET} from '../constants/productConstants'
 
 function ProductScreen() {
         const navigate = useNavigate()
         const [qty, setQty] = useState (1)
+
+
+        const [rating, setRating] = useState (0)
+
+        const [comment, setComment] = useState ('')
         const { id } = useParams()
         const dispatch = useDispatch()
+
         const productDetails = useSelector(state => state.productDetails);
         const { loading, error, product } = productDetails;
+
+        const userLogin = useSelector((state) => state.userLogin);
+        const {userInfo} = userLogin;
+
+
+        const productReview = useSelector(state => state.productReview);
+        const { loading: loadingPR, error:errorPR, success: successPR } = productReview;
+
+
       
         useEffect(() => {
+            if(successPR){
+                setRating(0)
+                setComment('')
+                dispatch({type: PRODUCT_REVIEW_RESET})
+            }
           dispatch(listProductDetails(id));
-        }, [id, dispatch]);
+        }, [id, dispatch, successPR]);
     
         const addToCartHandler =() => {
             navigate(`/cart/${id}?qty=${qty}`);
         }
+
+        const submitHandler = (e) => {
+            e.preventDefault();
+            
+            dispatch(reviewProduct(id, {
+                rating,
+                comment,
+            }));
+        };
+        
 
 
   return (
@@ -36,7 +66,7 @@ function ProductScreen() {
             : error 
                 ? <Message variant='danger'>{error}</Message>
                 :(
-
+                    <div>
     <Row>
     <Col md={6}>
         <Image src={product.image} alt={product.name} fluid />
@@ -120,9 +150,75 @@ function ProductScreen() {
     </Col>
 </Row>
 
+<Row>
+    <Col md={6}>
+        <h4>Product Reviews</h4>
+        {loadingPR && <Loader/>}
+        {successPR && <Message variant='success'>Review Added</Message>}
+        {errorPR && <Message variant='danger'>{errorPR}</Message>}
+       
+        
+        {product.reviews.length === 0 && <Message variant='info'>No Reviews</Message>}
+       
+        <ListGroup variant='flush'>
+            {product.reviews.map((review) => (
+                <ListGroup.Item key={review._id}>
+                    <strong>{review.name}</strong>
+                    <Rating value={review.rating} color='#f8e825'/>
+                    <p>{review.createdAt.substring(0,10)}</p>
+                    <p>{review.comment}</p>
+                </ListGroup.Item>
+            ))}
+            <ListGroup.Item>
+                <h5>Write your review here</h5>
+                {userInfo ?(
+                    <Form onSubmit={submitHandler}>
+                        <Form.Group controlId="rating">
+                            <Form.Label>Rating</Form.Label>
+                            <Form.Control as='select'
+                            value={rating}
+                            onChange={(e) => setRating(e.target.value)}>
+                                <option value=''>Select..</option>
+                                <option value='1'>1 - Poor</option>
+                                <option value='2'>2 - Fair</option>
+                                <option value='3'>3 - Good</option>
+                                <option value='4'>4 - Very Good</option>
+                                <option value='5'>5 - Excellent</option>
 
+                            </Form.Control>
+                        </Form.Group>
+                        <Form.Group controlId="comment">
+                            <Form.Label>Review</Form.Label>
+                            <Form.Control
+                            as='textarea'
+                            row='8'
+                            value={comment}
+                            onChange={(e)=> setComment(e.target.value)}></Form.Control>
+                        </Form.Group>
+                        <Button disabled={loadingPR} type='submit' vairant='primary'>Submit</Button>
+
+                    </Form>
+                ):(
+                    <Message variant='info'>Please <Link to='/login'>login</Link> to write a review</Message>
                 )
-    }  </div>
+                }
+            </ListGroup.Item>
+
+
+
+        </ListGroup>
+    </Col>
+
+    
+
+</Row>
+
+</div>
+
+)
+
+    }  
+    </div>
     )
 }
 
