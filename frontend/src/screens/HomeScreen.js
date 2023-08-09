@@ -13,7 +13,7 @@ function HomeScreen() {
   const [keyword, setKeyword] = useState('');
 
   useEffect(() => {
-    dispatch(listProducts(keyword, page));
+    dispatch(listProducts(keyword, page, 'createdAt_desc')); // Sort by creation date in descending order
   }, [dispatch, keyword, page]);
 
   const loadMore = () => {

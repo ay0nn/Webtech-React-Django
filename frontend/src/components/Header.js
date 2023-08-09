@@ -20,7 +20,7 @@ function Header() {
       <Navbar bg="dark" variant="dark" expand="lg">
         <Container>
           
-          <LinkContainer to="/">
+          <LinkContainer to='/'>
             <Navbar.Brand>GamersHub</Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />

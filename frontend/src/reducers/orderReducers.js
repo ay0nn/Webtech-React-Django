@@ -100,28 +100,38 @@ export const orderPayReducer = (state = {}, action) => {
   };
   
 
-export const orderListMyReducer = (state = {orders:[]}, action) => {
-  switch (action.type) {
-    case ORDER_LIST_MY_REQUEST:
-      return {
-        loading: true,
-      };
-    case ORDER_LIST_MY_SUCCESS:
-      return {
-        loading: false,
-        orders:action.payload,
-      };
-    case ORDER_LIST_MY_FAIL:
-      return {
-        loading: false,
-        error: action.payload,
-      };
-    case ORDER_LIST_MY_RESET:
-      return {}
-    default:
-      return state;
-  }
-};
+  const initialState = {
+    loading: false,
+    error: null,
+    orders: [], // Initialize with an empty array
+  };
+  
+  export const orderListMyReducer = (state = initialState, action) => {
+    switch (action.type) {
+      case ORDER_LIST_MY_REQUEST:
+        return {
+          ...state,
+          loading: true,
+        };
+      case ORDER_LIST_MY_SUCCESS:
+        return {
+          ...state,
+          loading: false,
+          orders: action.payload, // Make sure this is set correctly
+        };
+      case ORDER_LIST_MY_FAIL:
+        return {
+          ...state,
+          loading: false,
+          error: action.payload,
+        };
+      case ORDER_LIST_MY_RESET:
+        return initialState; // Reset back to initial state
+      default:
+        return state;
+    }
+  };
+  
 
 
 export const orderListReducer = (state = {orders:[]}, action) => {

@@ -136,13 +136,13 @@ function ProfileScreen() {
             <th>DATE</th>
             <th>TOTAL</th>
             <th>PAID</th>
-            <th>DELIVERED</th>
+            <th>STATUS</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
-          {orders.map(order=> (
-            <tr key={order._id}>
+        {orders.map(order => (
+      <tr key={order._id}>
               <td>{order._id}</td>
               <td>{order.createdAt.substring(0,10)}</td>
               <td>€{order.totalPrice}</td>
