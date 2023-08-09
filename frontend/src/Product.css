@@ -1,6 +1,30 @@
 /* Product.css */
 
-/* Container for each product */
+.product {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-image {
+  max-width: 100%;
+  height: auto;
+}
+
+.product-name {
+  font-size: 16px; /* You can adjust this value as needed */
+  margin-top: 5px;
+}
+
+.product-price {
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+/* Add any other styles you need for your products */
+
 .product-container {
     border: 1px solid #ccc;
     padding: 10px;

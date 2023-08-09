@@ -34,14 +34,20 @@ function ProductScreen() {
       
         useEffect(() => {
             if (successPR) {
-                setRating(0);
-                setComment('');
-                dispatch({ type: PRODUCT_REVIEW_RESET });
-                
+              setRating(0);
+              setComment('');
+              dispatch({ type: PRODUCT_REVIEW_RESET });
+              console.log('Resetting successPR');
             }
-
+          
             dispatch(listProductDetails(id));
-        }, [dispatch,id, successPR]);
+          
+            return () => {
+              dispatch({ type: PRODUCT_REVIEW_RESET });
+              console.log('Unmounting ProductScreen');
+            };
+          }, [dispatch, id, successPR]);
+          
         
     
         const addToCartHandler =() => {
@@ -157,6 +163,7 @@ function ProductScreen() {
         <h4>Product Reviews</h4>
         {loadingPR && <Loader/>}
         {successPR && <Message variant='success'>Review Added</Message>}
+        
         {errorPR && <Message variant='danger'>{errorPR}</Message>}
        
         

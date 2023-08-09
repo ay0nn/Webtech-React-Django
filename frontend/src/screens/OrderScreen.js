@@ -68,13 +68,13 @@ const addPaypalScript = () =>{
   document.body.appendChild(script)
 }
 
-const successPaymentHandler = (paymentResult) =>{
+const successPaymentHandler = (paymentResult) => {
   dispatch(payOrder(id, paymentResult)).then(() => {
     // After successful payment, refresh the page
-    navigate(`/orders/${id}`);
-  }); 
-
+    window.location.reload();
+  });
 }
+
   
   return loading ? (
     <Loader/>

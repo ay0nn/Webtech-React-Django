@@ -12,14 +12,16 @@ from base.models import Review
  
 #Products------
 
-@api_view(['GET']) 
+@api_view(['GET'])
 def getProducts(request):
     query = request.query_params.get('keyword')
     page = request.query_params.get('page')
     
-    if query == None:
+    if query is None:
         query = ''
-    products = Product.objects.filter(name__icontains=query)
+    
+    # Apply filtering by name and order by creation date
+    products = Product.objects.filter(name__icontains=query).order_by('createdAt')
     
     # Implement pagination (max 10 items per request)
     paginator = Paginator(products, 10)
@@ -30,7 +32,7 @@ def getProducts(request):
     except EmptyPage:
         products = paginator.page(paginator.num_pages)
     
-    serializer = ProductSerializer(products, many=True) 
+    serializer = ProductSerializer(products, many=True)
     return Response(serializer.data)
 
 

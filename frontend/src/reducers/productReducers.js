@@ -124,26 +124,30 @@ export const productUpdateReducer = (state = { product: {} }, action) => {
     }
   };
 
-
   export const productReviewReducer = (state = {}, action) => {
     switch (action.type) {
       case PRODUCT_REVIEW_REQUEST:
         return {
+          ...state,
           loading: true
         };
       case PRODUCT_REVIEW_SUCCESS:
         return {
+          ...state,
           loading: false,
-          success: true
+          success: true,
+          needProductRefresh: true // Set the flag to true after successful review
         };
       case PRODUCT_REVIEW_FAIL:
         return {
+          ...state,
           loading: false,
           error: action.payload
         };
       case PRODUCT_REVIEW_RESET:
-        return {}
-        
+        return {
+          ...state// Reset the flag when resetting the review state
+        };
       default:
         return state;
     }

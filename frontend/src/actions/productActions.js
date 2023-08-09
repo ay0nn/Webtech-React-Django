@@ -177,7 +177,6 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
   };
 
 
-
   export const reviewProduct = (productId, review) => async (dispatch, getState) => {
     try {
       dispatch({ type: PRODUCT_REVIEW_REQUEST });
@@ -192,6 +191,7 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
           Authorization: `Bearer ${userInfo.token}`,
         },
       };
+  
       const { data } = await axios.post(
         `/api/products/${productId}/reviews/`,
         review,
@@ -202,15 +202,19 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
         type: PRODUCT_REVIEW_SUCCESS,
         payload: data,
       });
+  
+      // Reset the review state after successful review
       dispatch({ type: PRODUCT_REVIEW_RESET });
-
+  
     } catch (error) {
       dispatch({
         type: PRODUCT_REVIEW_FAIL,
         payload:
           error.response && error.response.data.detail
-            ? error.response.data.detail 
+            ? error.response.data.detail
             : error.message,
       });
     }
   };
+
+  

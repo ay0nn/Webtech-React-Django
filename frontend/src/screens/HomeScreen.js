@@ -11,6 +11,7 @@ function HomeScreen() {
 
   const [page, setPage] = useState(1);
   const [keyword, setKeyword] = useState('');
+  
 
   useEffect(() => {
     dispatch(listProducts(keyword, page, 'createdAt_desc')); // Sort by creation date in descending order
@@ -28,7 +29,6 @@ function HomeScreen() {
 
   return (
     <div className="container">
-      <h1 className="main-heading">Latest Products</h1>
       <form className="search-container" onSubmit={handleSearch}>
         <input
           type="text"
